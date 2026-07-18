@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Story of a Life</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#22423D">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Our Story">
+<style>
+  :root{
+    --paper:#FAF6EC; --ink:#3A3226; --soft:#6E6353; --teal:#2F5D58; --teal-deep:#22423D;
+    --terra:#B5654A; --terra-lt:#C67B5C; --line:#D8CDB4; --field:#FFFEF9; --tint:#F2ECDC; --cream:#F4EEDD;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,'Times New Roman',serif;-webkit-text-size-adjust:100%}
+  .sans{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif}
+  .wrap{max-width:680px;margin:0 auto;padding:40px 20px 60px}
+  h1,h2{font-weight:normal;color:var(--teal);margin:0}
+  .eyebrow{letter-spacing:.28em;font-size:11px;color:var(--soft)}
+  .center{text-align:center}
+  .italic{font-style:italic}
+  .small{font-size:12px}
+  .softc{color:var(--soft)}
+  .orn{display:flex;align-items:center;justify-content:center;gap:12px;margin:10px 0}
+  .orn i{height:1px;width:72px;background:var(--terra);opacity:.7;display:block}
+  .dia{width:7px;height:7px;background:var(--terra);transform:rotate(45deg);display:inline-block;flex:none}
+  .btn{font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px;padding:8px 16px;border-radius:999px;
+       border:1px solid transparent;background:none;color:var(--soft);cursor:pointer}
+  .btn:disabled{opacity:.4}
+  .btn-solid{background:var(--teal);color:var(--paper);border-color:var(--teal)}
+  .btn-line{color:var(--teal);border-color:var(--teal)}
+  .btn.sm{font-size:12px;padding:5px 12px}
+  .linky{background:none;border:none;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;
+         color:var(--soft);text-decoration:underline;cursor:pointer;padding:0}
+  .linky.teal{color:var(--teal);font-size:14px}
+  .pill{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;padding:5px 12px;border-radius:999px;
+        border:1px solid var(--line);background:var(--field);color:var(--teal);cursor:pointer}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .between{justify-content:space-between}
+  .sec{border-bottom:1px solid var(--line)}
+  .sec-row{width:100%;display:flex;align-items:center;gap:12px;padding:16px 0;background:none;border:none;
+           cursor:pointer;text-align:left;font-family:inherit}
+  .sec-row .t{font-size:18px;color:var(--teal);flex:1;font-family:Georgia,serif}
+  .sec-row .c{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;color:var(--soft)}
+  .prompt{font-style:italic;font-size:16px;line-height:1.4;margin:22px 0 8px}
+  .entry{background:var(--field);border:1px solid var(--line);border-radius:6px;padding:12px 16px;margin-bottom:12px}
+  .e-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .e-author{color:var(--teal);font-style:italic;font-size:14px}
+  .e-date{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--soft)}
+  .e-body{white-space:pre-wrap;line-height:1.6;margin:8px 0 0;font-size:16px}
+  .thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .thumb{height:92px;width:92px;object-fit:cover;border-radius:4px;border:1px solid var(--line);cursor:pointer}
+  .twrap{position:relative}
+  .tx{position:absolute;top:-7px;right:-7px;width:20px;height:20px;border-radius:50%;border:none;
+      background:var(--ink);color:var(--paper);font-size:11px;cursor:pointer;line-height:1}
+  .e-link,.e-doc{display:block;font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px;
+                 margin-top:6px;word-break:break-all;text-decoration:underline}
+  .e-link{color:var(--teal)} .e-doc{color:var(--terra)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;background:var(--tint);
+        border:1px solid var(--line);border-radius:999px;padding:4px 12px;display:inline-flex;
+        align-items:center;gap:8px;max-width:100%}
+  .chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .chip button{background:none;border:none;color:var(--soft);cursor:pointer;padding:0}
+  .composer{background:var(--tint);border:1px solid var(--line);border-radius:6px;padding:12px;margin:6px 0 12px}
+  textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:6px;background:var(--field);
+        color:var(--ink);padding:10px 12px;font-size:16px}
+  textarea{font-family:Georgia,serif;line-height:1.6;resize:vertical}
+  input[type=text]{font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px}
+  .hint{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--soft);margin:8px 0 0}
+  .mt{margin-top:12px}
+  .card{background:var(--tint);border:1px solid var(--line);border-radius:6px;padding:16px;margin:12px 0}
+  /* cover */
+  .cover{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;
+         padding:20px;background:var(--teal-deep)}
+  .cover-frame{position:relative;width:100%;max-width:440px;text-align:center;padding:48px 24px;
+               border:1px solid rgba(244,238,221,.5);outline:1px solid rgba(244,238,221,.22);outline-offset:-8px}
+  .cover .eyebrow{color:rgba(244,238,221,.7)}
+  .cover h1{color:var(--cream);font-size:34px;margin-top:12px}
+  .cover .sub{color:rgba(244,238,221,.85);font-size:18px;margin-top:12px}
+  .cover .foot{color:rgba(244,238,221,.55);font-size:12px;margin-top:32px}
+  .cover .btn-open{font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.05em;color:var(--cream);
+        border:1px solid rgba(244,238,221,.8);background:none;border-radius:999px;padding:10px 24px;
+        font-size:14px;cursor:pointer}
+  .cdia{position:absolute;width:9px;height:9px;background:var(--terra-lt);transform:rotate(45deg)}
+  .lightbox{position:fixed;inset:0;background:rgba(20,16,10,.87);display:flex;align-items:center;
+            justify-content:center;padding:16px;z-index:50;cursor:pointer}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:4px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);
+         color:var(--paper);font-family:ui-sans-serif,system-ui,sans-serif;font-size:14px;
+         padding:8px 18px;border-radius:999px;z-index:60;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+  @media print{
+    .no-print{display:none !important}
+    body{background:#fff}
+    .entry{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ================================================================
+   SETUP — paste your two Supabase values between the quotes below.
+   (Supabase dashboard: Settings > API — Project URL and anon public key)
+   ================================================================ */
+const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL_HERE";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_ANON_PUBLIC_KEY_HERE";
+/* ================================================================ */
+
+const SECTIONS = [
+ {id:"s1",title:"In the Beginning",prompts:[
+  {id:"s1p1",q:"My full name at birth, and the story of how it was chosen for me."},
+  {id:"s1p2",q:"I was born on this date, in this place — and here is everything I know about the day I arrived."},
+  {id:"s1p3",q:"The family I was born into, and what their life looked like when I joined it."},
+  {id:"s1p4",q:"Stories my family always told about me as a baby."},
+  {id:"s1p5",q:"My earliest memory, as best I can reach it."}]},
+ {id:"s2",title:"The World of My Childhood",prompts:[
+  {id:"s2p1",q:"The house (or houses) I grew up in — its rooms, its sounds, its smells."},
+  {id:"s2p2",q:"My neighborhood, and the world just outside our door."},
+  {id:"s2p3",q:"How I spent my time when no one was telling me what to do."},
+  {id:"s2p4",q:"A typical evening at our family table."},
+  {id:"s2p5",q:"My childhood best friend, and what the two of us got up to."},
+  {id:"s2p6",q:"Something I was afraid of back then."},
+  {id:"s2p7",q:"A childhood moment I can still see clearly when I close my eyes."}]},
+ {id:"s3",title:"My People",prompts:[
+  {id:"s3p1",q:"My mother — who she was, what she was like, and how I see her now."},
+  {id:"s3p2",q:"My father — who he was, what he was like, and how I see him now."},
+  {id:"s3p7",q:"How my parents met, as the story was told to me."},
+  {id:"s3p3",q:"My grandparents, and what I knew (or wish I had asked) about their lives."},
+  {id:"s3p8",q:"My grandmother's marriages — how many there were, and what I know of each chapter."},
+  {id:"s3p4",q:"My brothers and sisters, and what it was like growing up together."},
+  {id:"s3p5",q:"A relative or family friend who shaped who I became."},
+  {id:"s3p6",q:"The traditions my family kept, and where they came from."},
+  {id:"s3p9",q:"Illnesses or health conditions that ran in our family, and how they touched us."}]},
+ {id:"s4",title:"School Days & Growing Up",prompts:[
+  {id:"s4p1",q:"My first day of school, as well as I can remember it."},
+  {id:"s4p2",q:"A teacher I never forgot, and why."},
+  {id:"s4p3",q:"What I was really like as a teenager — honestly."},
+  {id:"s4p4",q:"The music, the shows, and the crazes of my young years."},
+  {id:"s4p5",q:"My first job, what it paid, and what it taught me."},
+  {id:"s4p6",q:"Something I did in those years that took real courage — or real foolishness."},
+  {id:"s4p7",q:"What I dreamed my life would look like back then."}]},
+ {id:"s5",title:"Out on My Own",prompts:[
+  {id:"s5p1",q:"The day I left home, and how it felt to go."},
+  {id:"s5p2",q:"My first place of my own."},
+  {id:"s5p3",q:"What independence taught me the hard way."},
+  {id:"s5p4",q:"A risk I took in those years, and how it turned out."},
+  {id:"s5p5",q:"The friends who became my chosen family."}]},
+ {id:"s6",title:"Love & Partnership",prompts:[
+  {id:"s6p1",q:"How I met the love of my life — or the loves that mattered most."},
+  {id:"s6p2",q:"What I noticed about them first."},
+  {id:"s6p3",q:"The story of how we decided to build a life together."},
+  {id:"s6p4",q:"Our wedding day, or the day that sealed it for us."},
+  {id:"s6p5",q:"What we have weathered together, side by side."},
+  {id:"s6p6",q:"What I know now about what makes love last."}]},
+ {id:"s7",title:"Work & Purpose",prompts:[
+  {id:"s7p1",q:"The work I have done with my life, in all its chapters."},
+  {id:"s7p2",q:"The job, project, or accomplishment I am proudest of."},
+  {id:"s7p3",q:"A mentor who believed in me before I believed in myself."},
+  {id:"s7p4",q:"The hardest working day I can remember."},
+  {id:"s7p5",q:"What I would tell a young person just starting out in my line of work."}]},
+ {id:"s8",title:"A Home of My Own",prompts:[
+  {id:"s8p1",q:"Becoming a parent — or the family I built in my own way."},
+  {id:"s8p2",q:"What I remember about the day each child came into my life."},
+  {id:"s8p3",q:"The everyday chaos and comedy of our household."},
+  {id:"s8p4",q:"A family trip or holiday we still talk about."},
+  {id:"s8p5",q:"What I hope my children carried with them from the way I raised them."},
+  {id:"s8p6",q:"What being a grandparent has meant to me, if life has brought me that gift."}]},
+ {id:"s9",title:"Places & Journeys",prompts:[
+  {id:"s9p1",q:"Every place I have called home, roughly in order."},
+  {id:"s9p2",q:"The one place that shaped me more than any other."},
+  {id:"s9p3",q:"The best trip I ever took."},
+  {id:"s9p4",q:"A place I still dream of seeing someday."},
+  {id:"s9p5",q:"Where I feel most at peace in the world."}]},
+ {id:"s10",title:"My Favorite Things",prompts:[
+  {id:"qf1",q:"A meal I could eat forever",short:1},
+  {id:"qf2",q:"The song I turn up every time",short:1},
+  {id:"qf3",q:"A book that stayed with me",short:1},
+  {id:"qf4",q:"My favorite holiday of the year",short:1},
+  {id:"qf5",q:"The season I wait for",short:1},
+  {id:"qf6",q:"A smell that brings back memories",short:1},
+  {id:"qf7",q:"My idea of a perfect day off",short:1},
+  {id:"qf8",q:"A saying I repeat too often",short:1},
+  {id:"qf9",q:"The best gift I ever received",short:1},
+  {id:"qf10",q:"A skill I am quietly proud of",short:1},
+  {id:"qf11",q:"Something that always makes me laugh",short:1},
+  {id:"qf12",q:"Pick one favorite and tell the story behind it."}]},
+ {id:"s11",title:"Hard-Won Wisdom",prompts:[
+  {id:"s11p1",q:"The hardest season of my life, and how I came through it."},
+  {id:"s11p2",q:"A mistake that taught me something I truly needed to know."},
+  {id:"s11p3",q:"A belief I held tightly when I was young that I have since let go."},
+  {id:"s11p4",q:"What I have come to believe about faith, luck, and the bigger picture."},
+  {id:"s11p5",q:"The advice I find myself giving most often."},
+  {id:"s11p6",q:"What I no longer waste a single minute worrying about."}]},
+ {id:"s12",title:"Looking Back, Looking Forward",prompts:[
+  {id:"s12p1",q:"The moments in my life I am proudest of."},
+  {id:"s12p2",q:"What I am most grateful for."},
+  {id:"s12p3",q:"Something about me that might surprise even the people who love me."},
+  {id:"s12p4",q:"How I would like to be remembered."},
+  {id:"s12p5",q:"My hopes for the generations that come after me."},
+  {id:"s12p6",q:"And finally — a letter to you, the one holding this book."}]}
+];
+
+SECTIONS.forEach(function(s){
+  s.prompts.push({id: s.id + "notes", q: "Notes for this chapter — corrections, stray memories, or anything else that belongs here."});
+});
+
+/* ------------------------- helpers ------------------------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const normUrl = u => /^https?:\/\//i.test(u) ? u : "https://" + u;
+const fmtDate = ts => new Date(ts).toLocaleDateString(undefined, {year:"numeric", month:"long", day:"numeric"});
+const promptById = pid => { for (const s of SECTIONS) for (const p of s.prompts) if (p.id === pid) return p; return null; };
+
+function emblem(size, stroke, accent){
+  const d=(x,y,r,f)=>'<rect x="'+(-r)+'" y="'+(-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" transform="translate('+x+' '+y+') rotate(45)" fill="'+f+'"/>';
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 200 200" fill="none" aria-hidden="true">'
+   +'<circle cx="100" cy="100" r="86" stroke="'+stroke+'" stroke-width="1.4" opacity="0.9"/>'
+   +'<circle cx="100" cy="100" r="79" stroke="'+stroke+'" stroke-width="0.8" opacity="0.55"/>'
+   +'<line x1="62" y1="122" x2="138" y2="122" stroke="'+stroke+'" stroke-width="1.6" stroke-linecap="round"/>'
+   +'<path d="M97 122 L98.5 92 Q100 84 101.5 92 L103 122 Z" fill="'+stroke+'"/>'
+   +'<g stroke="'+stroke+'" stroke-width="2.4" stroke-linecap="round">'
+   +'<path d="M100 92 L100 66"/><path d="M100 84 L78 62"/><path d="M100 84 L122 62"/>'
+   +'<path d="M100 96 L66 78"/><path d="M100 96 L134 78"/></g>'
+   +d(100,56,4.5,stroke)+d(78,56,4,stroke)+d(122,56,4,stroke)+d(60,74,3.5,stroke)+d(140,74,3.5,stroke)
+   +d(88,44,3,stroke)+d(112,44,3,stroke)
+   +d(100,36,3.5,accent)+d(68,62,3,accent)+d(132,62,3,accent)
+   +'<g stroke="'+stroke+'" stroke-width="1.5" stroke-linecap="round" opacity="0.7">'
+   +'<path d="M100 122 L100 140"/><path d="M99 122 L82 136"/><path d="M101 122 L118 136"/>'
+   +'<path d="M98 122 L70 130"/><path d="M102 122 L130 130"/></g>'
+   +'<g opacity="0.7">'+d(100,144,2.5,stroke)+d(80,139,2.5,stroke)+d(120,139,2.5,stroke)+'</g></svg>';
+}
+
+const ORN = '<div class="orn" aria-hidden="true"><i></i><span class="dia"></span><i></i></div>';
+
+/* ------------------------- state ------------------------- */
+let sb = null;
+const state = {
+  view: "cover", open: null,
+  me: localStorage.getItem("sol-name") || "",
+  meta: {subject:"", dedication:""},
+  byPrompt: {},
+  composing: null, draft: null, naming: null, editingMeta: false,
+  lightbox: null, saving: false, loaded: false
+};
+
+let toastTimer = null;
+function toast(m){
+  let t = $("toast");
+  if(!t){ t = document.createElement("div"); t.id = "toast"; t.className = "toast"; document.body.appendChild(t); }
+  t.textContent = m; t.style.display = "block";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.style.display = "none"; }, 2600);
+}
+
+/* ------------------------- data ------------------------- */
+async function loadAll(){
+  try{
+    const m = await sb.from("journal_meta").select("*").eq("id", 1).maybeSingle();
+    if(m.data) state.meta = {subject: m.data.subject || "", dedication: m.data.dedication || ""};
+    const e = await sb.from("entries").select("*").order("created_at", {ascending:true});
+    if(e.error) throw e.error;
+    const g = {};
+    (e.data || []).forEach(r => { (g[r.prompt_id] = g[r.prompt_id] || []).push(r); });
+    state.byPrompt = g;
+    state.loaded = true;
+  }catch(err){
+    console.error(err);
+    toast("Could not load the journal. Check your connection and refresh.");
+  }
+}
+
+async function uploadPhoto(blob){
+  const path = "img/" + uid() + ".jpg";
+  const up = await sb.storage.from("journal").upload(path, blob, {contentType:"image/jpeg"});
+  if(up.error) throw up.error;
+  return {u: sb.storage.from("journal").getPublicUrl(path).data.publicUrl, path};
+}
+async function uploadDoc(file){
+  const safe = file.name.replace(/[^\w.\- ]/g, "_");
+  const path = "doc/" + uid() + "-" + safe;
+  const up = await sb.storage.from("journal").upload(path, file, {contentType: file.type || "application/octet-stream"});
+  if(up.error) throw up.error;
+  return {u: sb.storage.from("journal").getPublicUrl(path).data.publicUrl, l: file.name, path};
+}
+
+function compressToBlob(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        try{
+          let w = img.width, h = img.height;
+          const MAX = 1200;
+          if(w > MAX || h > MAX){ const s = MAX / Math.max(w, h); w = Math.round(w*s); h = Math.round(h*s); }
+          const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+          cv.getContext("2d").drawImage(img, 0, 0, w, h);
+          cv.toBlob(b => b ? resolve(b) : reject(new Error("compress failed")), "image/jpeg", 0.78);
+        }catch(e){ reject(e); }
+      };
+      img.onerror = () => reject(new Error("bad image"));
+      img.src = reader.result;
+    };
+    reader.onerror = () => reject(new Error("read failed"));
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ------------------------- views ------------------------- */
+function coverHTML(){
+  const sub = state.meta.subject ? "The life of " + esc(state.meta.subject) : "One life, many voices";
+  return '<div class="cover"><div class="cover-frame">'
+   +'<span class="cdia" style="top:-5px;left:-5px"></span><span class="cdia" style="top:-5px;right:-5px"></span>'
+   +'<span class="cdia" style="bottom:-5px;left:-5px"></span><span class="cdia" style="bottom:-5px;right:-5px"></span>'
+   +'<div style="display:flex;justify-content:center;margin-bottom:22px">'+emblem(168,"#F4EEDD","#C67B5C")+'</div>'
+   +'<p class="eyebrow sans">A GUIDED LEGACY JOURNAL</p>'
+   +'<h1>The Story of a Life</h1>'
+   +'<p class="sub italic">'+sub+'</p>'
+   +'<div class="orn" aria-hidden="true"><i style="background:#C67B5C;opacity:1;width:60px"></i>'
+   +'<span class="dia" style="background:#C67B5C"></span><i style="background:#C67B5C;opacity:1;width:60px"></i></div>'
+   +'<button class="btn-open" onclick="J.enter()">Open the journal</button>'
+   +'<p class="foot italic">Every memory added here is signed and kept.</p>'
+   +'</div></div>';
+}
+
+function entryHTML(pid, en, readOnly){
+  let h = '<div class="entry"><div class="e-head"><span class="e-author">'+esc(en.author)+'</span>'
+        + '<span class="e-date">'+fmtDate(en.created_at)+'</span></div>';
+  if(en.body) h += '<p class="e-body">'+esc(en.body)+'</p>';
+  const imgs = en.images || [];
+  if(imgs.length){
+    h += '<div class="thumbs">';
+    imgs.forEach(im => { h += '<img class="thumb" alt="Journal photo" src="'+esc(im.u)+'" onclick="J.zoom(this.src)">'; });
+    h += '</div>';
+  }
+  (en.links || []).forEach(l => {
+    h += '<a class="e-link" target="_blank" rel="noopener noreferrer" href="'+esc(normUrl(l.u))+'">&#8599; '+esc(l.l || l.u)+'</a>';
+  });
+  (en.docs || []).forEach(d0 => {
+    h += '<a class="e-doc" target="_blank" rel="noopener noreferrer" href="'+esc(d0.u)+'">&#128196; '+esc(d0.l || "Document")+'</a>';
+  });
+  if(!readOnly) h += '<div style="text-align:right;margin-top:8px"><button class="linky" onclick="J.remove(\''+pid+'\',\''+en.id+'\')">Remove</button></div>';
+  return h + '</div>';
+}
+
+function chipsHTML(){
+  const d = state.draft; if(!d) return "";
+  let h = "";
+  d.links.forEach((l,i)=>{ h += '<span class="chip"><span>&#8599; '+esc(l.l)+'</span><button onclick="J.dropLink('+i+')" aria-label="Remove link">&#10005;</button></span>'; });
+  d.docs.forEach((f,i)=>{ h += '<span class="chip"><span>&#128196; '+esc(f.file.name)+'</span><button onclick="J.dropDoc('+i+')" aria-label="Remove document">&#10005;</button></span>'; });
+  return h;
+}
+function thumbsHTML(){
+  const d = state.draft; if(!d) return "";
+  return d.photos.map((p,i)=>'<span class="twrap"><img class="thumb" style="height:64px;width:64px" src="'+p.url+'" alt="To attach">'
+    +'<button class="tx" onclick="J.dropPhoto('+i+')" aria-label="Remove photo">&#10005;</button></span>').join("");
+}
+
+function composerHTML(p){
+  return '<div class="composer">'
+   +'<textarea id="cw-text" spellcheck="true" rows="'+(p.short?2:5)+'" placeholder="'+(p.short?"Your answer…":"Write the memory in your own words…")+'"></textarea>'
+   +'<div id="cw-thumbs" class="thumbs">'+thumbsHTML()+'</div>'
+   +'<div id="cw-chips" class="chips">'+chipsHTML()+'</div>'
+   +'<div id="cw-attach"></div>'
+   +'<div class="row mt">'
+   +'<label class="btn btn-line sm" for="cw-photos">+ Photo</label>'
+   +'<input id="cw-photos" type="file" accept="image/*" multiple hidden onchange="J.pickPhotos(event)">'
+   +'<label class="btn btn-line sm" for="cw-docs">+ Document</label>'
+   +'<input id="cw-docs" type="file" multiple hidden onchange="J.pickDocs(event)">'
+   +'<button class="btn btn-line sm" onclick="J.linkForm()">+ Link</button>'
+   +'</div>'
+   +'<div class="row mt">'
+   +'<button id="cw-save" class="btn btn-solid" onclick="J.save(\''+p.id+'\')">Add to the journal</button>'
+   +'<button class="btn" onclick="J.cancel()">Cancel</button>'
+   +'</div>'
+   +'<p class="hint">Spell check is on — misspellings get the squiggly underline as you type.</p>'
+   +'</div>';
+}
+
+function nameCardHTML(){
+  return '<div class="card"><p style="margin:0 0 10px">First — who is writing?</p>'
+   +'<div class="row"><input id="nm" type="text" spellcheck="false" placeholder="Your name" style="flex:1;min-width:160px" value="'+esc(state.me)+'">'
+   +'<button class="btn btn-solid" onclick="J.saveName()">That is me</button>'
+   +'<button class="btn" onclick="J.closeName()">Cancel</button></div>'
+   +'<p class="hint">Your name is signed under each memory you add.</p></div>';
+}
+
+function journalHTML(){
+  let h = '<div class="wrap">';
+  h += '<div class="center">'
+    +'<p class="eyebrow sans">A GUIDED LEGACY JOURNAL</p>'
+    +'<h1 style="font-size:36px;margin-top:8px">The Story of a Life</h1>';
+  if(state.editingMeta){
+    h += '<div style="max-width:420px;margin:16px auto 0;text-align:left">'
+      +'<input id="mt-s" type="text" spellcheck="true" placeholder="Whose life is this? (e.g., Grandma June)" value="'+esc(state.meta.subject)+'">'
+      +'<div class="mt"></div>'
+      +'<input id="mt-d" type="text" spellcheck="true" placeholder="A dedication line (optional)" value="'+esc(state.meta.dedication)+'">'
+      +'<div class="row mt" style="justify-content:center"><button class="btn btn-solid sm" onclick="J.saveMeta()">Save</button>'
+      +'<button class="btn sm" onclick="J.closeMeta()">Cancel</button></div></div>';
+  } else {
+    h += '<button class="linky" style="margin-top:8px" onclick="J.editMeta()">'
+      +'<span class="italic" style="font-family:Georgia,serif;font-size:18px;color:var(--ink);text-decoration:none">'
+      +(state.meta.subject ? "The life of "+esc(state.meta.subject) : "Tap to name whose life this is")+'</span></button>';
+    if(state.meta.dedication) h += '<p class="italic small softc" style="margin:4px 0 0">'+esc(state.meta.dedication)+'</p>';
+  }
+  h += ORN
+    +'<p class="italic softc" style="font-size:14px;max-width:420px;margin:0 auto">One life, many voices. Open a chapter, add a memory, a photo, a document — every contribution is signed and kept.</p>'
+    +'</div>';
+  h += '<div class="row between no-print" style="margin:24px 0 8px">'
+    +'<button class="pill" onclick="J.nameForm(\'pill\')">'+(state.me ? "Writing as "+esc(state.me)+" · change" : "Set your name")+'</button>'
+    +'<div class="row"><button class="btn btn-line sm" onclick="J.refresh()">Refresh</button>'
+    +'<button class="btn btn-line sm" onclick="J.read()">Read the whole journal</button></div></div>';
+  if(state.naming === "pill") h += nameCardHTML();
+  if(!state.loaded){ h += '<p class="center small sans softc" style="padding:32px 0">Opening the journal…</p>'; }
+  h += '<div style="border-top:1px solid var(--line)">';
+  SECTIONS.forEach((sec, si) => {
+    const count = sec.prompts.filter(p => (state.byPrompt[p.id] || []).length).length;
+    const isOpen = state.open === sec.id;
+    h += '<div class="sec">'
+      +'<button class="sec-row" onclick="J.toggle(\''+sec.id+'\')">'
+      +'<span class="dia" style="background:'+(count ? "var(--terra)" : "var(--line)")+'"></span>'
+      +'<span class="t">'+esc(sec.title)+'</span>'
+      +'<span class="c">'+(count ? count+" answered" : "")+'</span>'
+      +'<span class="c">'+(isOpen ? "&ndash;" : "+")+'</span></button>';
+    if(isOpen){
+      h += '<div style="padding-bottom:24px">'
+        +'<p class="eyebrow sans" style="letter-spacing:.2em;margin:0">SECTION '+(si+1)+'</p>';
+      sec.prompts.forEach(p => {
+        h += '<p class="prompt">'+esc(p.q)+'</p>';
+        (state.byPrompt[p.id] || []).forEach(en => { h += entryHTML(p.id, en, false); });
+        if(state.naming === p.id) h += nameCardHTML();
+        if(state.composing === p.id) h += composerHTML(p);
+        else if(state.naming !== p.id){
+          h += '<button class="linky teal" onclick="J.compose(\''+p.id+'\')">'
+            +((state.byPrompt[p.id] || []).length ? "+ Add another memory" : "+ Be the first to answer")+'</button>';
+        }
+      });
+      h += '</div>';
+    }
+    h += '</div>';
+  });
+  h += '</div>';
+  h += '<p class="center small sans softc" style="margin-top:32px">Shared family journal — everyone with this link can read and add to everything here.</p>';
+  h += '</div>';
+  return h;
+}
+
+function readingHTML(){
+  let h = '<div class="wrap">';
+  h += '<div class="row between no-print" style="margin-bottom:24px">'
+    +'<button class="btn btn-line sm" onclick="J.back()">&larr; Back to writing</button>'
+    +'<button class="btn btn-solid sm" onclick="window.print()">Print</button></div>';
+  h += '<div class="center"><p class="eyebrow sans">A GUIDED LEGACY JOURNAL</p>'
+    +'<h1 style="font-size:34px;margin-top:8px">The Story of a Life</h1>';
+  if(state.meta.subject) h += '<p class="italic" style="margin:8px 0 0">The life of '+esc(state.meta.subject)+'</p>';
+  if(state.meta.dedication) h += '<p class="italic small softc" style="margin:4px 0 0">'+esc(state.meta.dedication)+'</p>';
+  h += ORN + '</div>';
+  let any = false;
+  SECTIONS.forEach(sec => {
+    const withContent = sec.prompts.filter(p => (state.byPrompt[p.id] || []).length);
+    if(!withContent.length) return;
+    any = true;
+    h += '<div style="margin-top:40px"><div class="center"><h2 style="font-size:24px">'+esc(sec.title)+'</h2>'+ORN+'</div>';
+    withContent.forEach(p => {
+      h += '<p class="prompt">'+esc(p.q)+'</p>';
+      (state.byPrompt[p.id] || []).forEach(en => { h += entryHTML(p.id, en, true); });
+    });
+    h += '</div>';
+  });
+  if(!any) h += '<p class="center italic softc" style="padding:40px 0">Nothing has been written yet. The first memory is waiting for you.</p>';
+  h += '<div class="center" style="margin:56px 0 24px">'+ORN+'<p class="italic small softc">A life, set down in our own words.</p></div>';
+  h += '</div>';
+  return h;
+}
+
+function setupHTML(){
+  return '<div class="wrap"><div class="card" style="margin-top:48px">'
+   +'<h2 style="font-size:20px">One setup step to go</h2>'
+   +'<p style="line-height:1.6">This page is not connected to its family database yet. Open <b>index.html</b> in your GitHub repo, '
+   +'find the SETUP block at the top of the code, and paste in your Supabase <b>Project URL</b> and <b>anon public key</b>. '
+   +'The setup guide walks you through it step by step.</p></div></div>';
+}
+
+function render(){
+  const app = $("app");
+  if(state.view === "cover") app.innerHTML = coverHTML();
+  else if(state.view === "reading") app.innerHTML = readingHTML();
+  else app.innerHTML = journalHTML();
+  if(state.lightbox){
+    const lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.onclick = () => { state.lightbox = null; render(); };
+    lb.innerHTML = '<img alt="Journal photo, enlarged" src="'+esc(state.lightbox)+'">';
+    app.appendChild(lb);
+  }
+}
+
+/* ------------------------- actions ------------------------- */
+const J = {
+  enter(){ state.view = "journal"; render(); },
+  back(){ state.view = "journal"; render(); },
+  read(){ state.view = "reading"; render(); },
+  toggle(id){ state.open = state.open === id ? null : id; state.composing = null; state.naming = null; render(); },
+  async refresh(){ await loadAll(); render(); toast("Up to date."); },
+  zoom(src){ state.lightbox = src; render(); },
+
+  nameForm(target){ state.naming = target; render(); const el = $("nm"); if(el) el.focus(); },
+  closeName(){ state.naming = null; render(); },
+  saveName(){
+    const v = ($("nm") && $("nm").value.trim()) || "";
+    if(!v) return;
+    state.me = v; localStorage.setItem("sol-name", v);
+    const target = state.naming; state.naming = null;
+    if(target && target !== "pill") J.compose(target); else render();
+  },
+
+  compose(pid){
+    if(!state.me){ J.nameForm(pid); return; }
+    state.composing = pid;
+    state.draft = {photos:[], docs:[], links:[]};
+    render();
+    const t = $("cw-text"); if(t) t.focus();
+  },
+  cancel(){ state.composing = null; state.draft = null; render(); },
+
+  async pickPhotos(ev){
+    const files = Array.from(ev.target.files || []).slice(0, 4 - state.draft.photos.length);
+    ev.target.value = "";
+    for(const f of files){
+      try{
+        const blob = await compressToBlob(f);
+        if(state.draft.photos.length < 4) state.draft.photos.push({blob, url: URL.createObjectURL(blob)});
+      }catch{ toast("That photo could not be added."); }
+    }
+    if($("cw-thumbs")) $("cw-thumbs").innerHTML = thumbsHTML();
+  },
+  pickDocs(ev){
+    const files = Array.from(ev.target.files || []).slice(0, 3 - state.draft.docs.length);
+    ev.target.value = "";
+    for(const f of files){
+      if(f.size > 20 * 1024 * 1024){ toast('"'+f.name+'" is over 20 MB — attach it as a link instead.'); continue; }
+      state.draft.docs.push({file: f});
+    }
+    if($("cw-chips")) $("cw-chips").innerHTML = chipsHTML();
+  },
+  linkForm(){
+    const a = $("cw-attach"); if(!a) return;
+    a.innerHTML = '<div class="mt"><input id="at-u" type="text" spellcheck="false" placeholder="Paste a web link (https://…)">'
+      +'<div class="mt"></div><input id="at-l" type="text" spellcheck="true" placeholder="What is it? (a short label)">'
+      +'<div class="row mt"><button class="btn btn-line sm" onclick="J.addLink()">Attach</button>'
+      +'<button class="btn sm" onclick="J.closeLink()">Cancel</button></div></div>';
+    $("at-u").focus();
+  },
+  closeLink(){ if($("cw-attach")) $("cw-attach").innerHTML = ""; },
+  addLink(){
+    const u = ($("at-u") && $("at-u").value.trim()) || "";
+    if(!u) return;
+    const l = ($("at-l") && $("at-l").value.trim()) || u;
+    state.draft.links.push({u: normUrl(u), l});
+    J.closeLink();
+    if($("cw-chips")) $("cw-chips").innerHTML = chipsHTML();
+  },
+  dropPhoto(i){ state.draft.photos.splice(i,1); if($("cw-thumbs")) $("cw-thumbs").innerHTML = thumbsHTML(); },
+  dropDoc(i){ state.draft.docs.splice(i,1); if($("cw-chips")) $("cw-chips").innerHTML = chipsHTML(); },
+  dropLink(i){ state.draft.links.splice(i,1); if($("cw-chips")) $("cw-chips").innerHTML = chipsHTML(); },
+
+  async save(pid){
+    const body = ($("cw-text") && $("cw-text").value.trim()) || "";
+    const d = state.draft;
+    if(!body && !d.photos.length && !d.docs.length && !d.links.length){
+      toast("Write a memory or attach something first."); return;
+    }
+    const btn = $("cw-save"); if(btn){ btn.disabled = true; btn.textContent = "Saving…"; }
+    try{
+      const images = [];
+      for(const p of d.photos) images.push(await uploadPhoto(p.blob));
+      const docs = [];
+      for(const f of d.docs) docs.push(await uploadDoc(f.file));
+      const row = {prompt_id: pid, author: state.me, body, links: d.links, docs, images};
+      const ins = await sb.from("entries").insert(row).select().single();
+      if(ins.error) throw ins.error;
+      (state.byPrompt[pid] = state.byPrompt[pid] || []).push(ins.data);
+      state.composing = null; state.draft = null;
+      render();
+      toast("Added to the journal.");
+    }catch(err){
+      console.error(err);
+      if(btn){ btn.disabled = false; btn.textContent = "Add to the journal"; }
+      toast("Could not save. Check your connection and try again.");
+    }
+  },
+
+  async remove(pid, id){
+    if(!confirm("Remove this memory from the journal for everyone?")) return;
+    try{
+      const list = state.byPrompt[pid] || [];
+      const en = list.find(e => e.id === id);
+      const paths = [];
+      if(en){
+        (en.images || []).forEach(im => im.path && paths.push(im.path));
+        (en.docs || []).forEach(d0 => d0.path && paths.push(d0.path));
+      }
+      if(paths.length) await sb.storage.from("journal").remove(paths);
+      const del = await sb.from("entries").delete().eq("id", id);
+      if(del.error) throw del.error;
+      state.byPrompt[pid] = list.filter(e => e.id !== id);
+      render();
+      toast("Removed.");
+    }catch(err){
+      console.error(err);
+      toast("Could not remove that. Try again.");
+    }
+  },
+
+  editMeta(){ state.editingMeta = true; render(); const el = $("mt-s"); if(el) el.focus(); },
+  closeMeta(){ state.editingMeta = false; render(); },
+  async saveMeta(){
+    const subject = ($("mt-s") && $("mt-s").value.trim()) || "";
+    const dedication = ($("mt-d") && $("mt-d").value.trim()) || "";
+    try{
+      const up = await sb.from("journal_meta").upsert({id: 1, subject, dedication});
+      if(up.error) throw up.error;
+      state.meta = {subject, dedication};
+      state.editingMeta = false;
+      render();
+      toast("Saved.");
+    }catch(err){ console.error(err); toast("Could not save. Try again."); }
+  }
+};
+window.J = J;
+
+/* ------------------------- boot ------------------------- */
+(async function(){
+  if(SUPABASE_URL.indexOf("PASTE_") === 0 || SUPABASE_ANON_KEY.indexOf("PASTE_") === 0){
+    $("app").innerHTML = setupHTML();
+    return;
+  }
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  render();            // show the cover immediately
+  await loadAll();     // then pull the journal in the background
+  render();            // re-render with subject line and counts
+})();
+</script>
+</body>
+</html>
