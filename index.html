@@ -109,8 +109,8 @@
    SETUP — paste your two Supabase values between the quotes below.
    (Supabase dashboard: Settings > API — Project URL and anon public key)
    ================================================================ */
-const SUPABASE_URL = "https://bwfnjxauemouvnzvgvqt.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_ecqExY8qrwOXpD1YiIpjrw_4m3tR5An";
+const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL_HERE";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_ANON_PUBLIC_KEY_HERE";
 /* ================================================================ */
 
 const SECTIONS = [
@@ -218,6 +218,53 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 const normUrl = u => /^https?:\/\//i.test(u) ? u : "https://" + u;
 const fmtDate = ts => new Date(ts).toLocaleDateString(undefined, {year:"numeric", month:"long", day:"numeric"});
 const promptById = pid => { for (const s of SECTIONS) for (const p of s.prompts) if (p.id === pid) return p; return null; };
+
+async function urlToDataUrl(u){
+  try{
+    const r = await fetch(u);
+    const b = await r.blob();
+    return await new Promise((res) => {
+      const fr = new FileReader();
+      fr.onload = () => res(fr.result);
+      fr.onerror = () => res(null);
+      fr.readAsDataURL(b);
+    });
+  }catch(e){ return null; }
+}
+
+function buildBackupHtml(imgMap){
+  const css = "body{font-family:Georgia,serif;color:#3A3226;max-width:620pt;margin:24pt auto;padding:0 12pt}"
+    + "h1{color:#2F5D58;text-align:center;font-weight:normal}h2{color:#2F5D58;font-weight:normal;margin:28pt 0 4pt;text-align:center}"
+    + ".rule{border-bottom:1pt solid #B5654A;margin:2pt 40pt 12pt}.q{font-style:italic;margin:16pt 0 4pt}"
+    + ".en{border:1pt solid #D8CDB4;background:#FFFEF9;padding:8pt 10pt;margin:0 0 8pt}"
+    + ".a{color:#2F5D58;font-style:italic}.d{color:#6E6353;font-size:9pt;float:right}"
+    + "img{max-width:320pt;height:auto;display:block;margin:6pt 0}a{color:#2F5D58}";
+  let h = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">'
+    + '<head><meta charset="utf-8"><title>The Story of a Life</title><style>' + css + '</style></head><body>';
+  h += '<p style="text-align:center;color:#6E6353;letter-spacing:3pt;font-size:9pt">A GUIDED LEGACY JOURNAL</p>';
+  h += '<h1>The Story of a Life</h1>';
+  if(state.meta.subject) h += '<p style="text-align:center;font-style:italic">The life of ' + esc(state.meta.subject) + '</p>';
+  if(state.meta.dedication) h += '<p style="text-align:center;font-style:italic;color:#6E6353">' + esc(state.meta.dedication) + '</p>';
+  h += '<p style="text-align:center;color:#6E6353;font-size:9pt">Backup made ' + esc(new Date().toLocaleDateString()) + '</p>';
+  SECTIONS.forEach(function(sec){
+    const withContent = sec.prompts.filter(p => (state.byPrompt[p.id] || []).length);
+    if(!withContent.length) return;
+    h += '<h2>' + esc(sec.title) + '</h2><div class="rule"></div>';
+    withContent.forEach(function(p){
+      h += '<p class="q">' + esc(p.q) + '</p>';
+      (state.byPrompt[p.id] || []).forEach(function(en){
+        h += '<div class="en"><span class="d">' + esc(fmtDate(en.created_at)) + '</span><span class="a">' + esc(en.author) + '</span>';
+        if(en.body) h += '<p style="margin:6pt 0 0">' + esc(en.body).replace(/\n/g, "<br>") + '</p>';
+        (en.images || []).forEach(function(im){ h += '<img src="' + (imgMap[im.u] || esc(im.u)) + '">'; });
+        (en.links || []).forEach(function(l){ h += '<p style="margin:4pt 0 0"><a href="' + esc(normUrl(l.u)) + '">' + esc(l.l || l.u) + '</a></p>'; });
+        (en.docs || []).forEach(function(d0){ h += '<p style="margin:4pt 0 0">Document: <a href="' + esc(d0.u) + '">' + esc(d0.l || d0.u) + '</a></p>'; });
+        h += '</div>';
+      });
+    });
+  });
+  h += '<p style="text-align:center;color:#6E6353;font-style:italic;margin-top:28pt">A life, set down in our own words.</p></body></html>';
+  return h;
+}
 
 function emblem(size, stroke, accent){
   const d=(x,y,r,f)=>'<rect x="'+(-r)+'" y="'+(-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" transform="translate('+x+' '+y+') rotate(45)" fill="'+f+'"/>';
@@ -417,6 +464,7 @@ function journalHTML(){
   h += '<div class="row between no-print" style="margin:24px 0 8px">'
     +'<button class="pill" onclick="J.nameForm(\'pill\')">'+(state.me ? "Writing as "+esc(state.me)+" · change" : "Set your name")+'</button>'
     +'<div class="row"><button class="btn btn-line sm" onclick="J.refresh()">Refresh</button>'
+    +'<button id="bk-btn" class="btn btn-line sm" onclick="J.backup()">Back up</button>'
     +'<button class="btn btn-line sm" onclick="J.read()">Read the whole journal</button></div></div>';
   if(state.naming === "pill") h += nameCardHTML();
   if(!state.loaded){ h += '<p class="center small sans softc" style="padding:32px 0">Opening the journal…</p>'; }
@@ -448,7 +496,7 @@ function journalHTML(){
     h += '</div>';
   });
   h += '</div>';
-  h += '<p class="center small sans softc" style="margin-top:32px">Shared family journal — everyone with this link can read and add to everything here.</p>';
+  h += '<p class="center small sans softc" style="margin-top:32px">Shared family journal — everyone with this link can read and add to everything here. Tap Back up any time to download a Word-ready copy with every photo inside.</p>';
   h += '</div>';
   return h;
 }
@@ -510,6 +558,28 @@ const J = {
   read(){ state.view = "reading"; render(); },
   toggle(id){ state.open = state.open === id ? null : id; state.composing = null; state.naming = null; render(); },
   async refresh(){ await loadAll(); render(); toast("Up to date."); },
+
+  async backup(){
+    const btn = $("bk-btn");
+    if(btn){ btn.disabled = true; btn.textContent = "Backing up…"; }
+    try{
+      const urls = [];
+      Object.values(state.byPrompt).flat().forEach(en => (en.images || []).forEach(im => urls.push(im.u)));
+      const uniq = [...new Set(urls)];
+      const fetched = await Promise.all(uniq.map(urlToDataUrl));
+      const imgMap = {};
+      uniq.forEach((u, i) => { imgMap[u] = fetched[i] || u; });
+      const html = buildBackupHtml(imgMap);
+      const blob = new Blob([html], {type: "application/msword"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "Story-of-a-Life-Backup-" + new Date().toISOString().slice(0, 10) + ".doc";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      toast("Backup downloaded. Keep a copy in Google Drive.");
+    }catch(e){ console.error(e); toast("Backup failed — try again."); }
+    if(btn){ btn.disabled = false; btn.textContent = "Back up"; }
+  },
   zoom(src){ state.lightbox = src; render(); },
 
   nameForm(target){ state.naming = target; render(); const el = $("nm"); if(el) el.focus(); },
