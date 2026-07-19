@@ -570,10 +570,10 @@ const J = {
       const imgMap = {};
       uniq.forEach((u, i) => { imgMap[u] = fetched[i] || u; });
       const html = buildBackupHtml(imgMap);
-      const blob = new Blob([html], {type: "application/msword"});
+      const blob = new Blob([html], {type: "text/html;charset=utf-8"});
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "Story-of-a-Life-Backup-" + new Date().toISOString().slice(0, 10) + ".doc";
+      a.download = "Story-of-a-Life-Backup-" + new Date().toISOString().slice(0, 10) + ".html";
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(a.href), 4000);
       toast("Backup downloaded. Keep a copy in Google Drive.");
